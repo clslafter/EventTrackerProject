@@ -1,0 +1,3 @@
+rootProject.name = 'MeatCost'
+
+includeFlat 'JPAMeatCost'
