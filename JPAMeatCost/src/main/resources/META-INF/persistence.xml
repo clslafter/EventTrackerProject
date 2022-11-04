@@ -6,7 +6,9 @@
 	<provider>org.hibernate.jpa.HibernatePersistenceProvider </provider>
     
     <!-- entities -->
+    <class>com.skilldistillery.meatcost.entities.Address</class>
     <class>com.skilldistillery.meatcost.entities.MeatPurchase</class>
+    <class>com.skilldistillery.meatcost.entities.Store</class>
    
    
     

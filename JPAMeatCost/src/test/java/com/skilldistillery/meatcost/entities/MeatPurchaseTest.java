@@ -1,7 +1,9 @@
 package com.skilldistillery.meatcost.entities;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -45,6 +47,23 @@ class MeatPurchaseTest {
 	void test_MeatPurchase_entity_mapping() {
 		assertNotNull(purchase);
 		assertEquals("chicken", purchase.getType());
+		
+		MeatPurchase purch2 = em.find(MeatPurchase.class, 5);
+		assertNotNull(purch2);
+		assertFalse(purch2.isOnSale());
+		
+		assertEquals(15.07, purchase.getPriceInUsd());
+		
+		assertEquals(2022, purchase.getPurchaseDate().getYear());
+		
+		assertEquals(2022, purchase.getCreateDate().getYear());
+		
+	}
+	@Test
+	void test_MeatPurchase_store_mapping() {
+		assertNotNull(purchase);
+		assertEquals("Wal-Mart Neighborhood Market", purchase.getStore().getName());
+		
 	}
 
 }
