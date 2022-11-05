@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Address {
@@ -30,7 +30,7 @@ public class Address {
 	
 	
 	@OneToOne(mappedBy="address")
-	@JsonIgnoreProperties({"address"})
+	@JsonIgnore
 	private Store store;
 	
 //	methods

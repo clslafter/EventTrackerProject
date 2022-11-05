@@ -14,6 +14,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name="meat_purchase")
 public class MeatPurchase {
@@ -48,6 +50,7 @@ public class MeatPurchase {
 	private LocalDateTime createDate;
 	
 	@ManyToOne
+	@JsonIgnoreProperties({"purchases"})
 	@JoinColumn(name="store_id")
 	private Store store;
 

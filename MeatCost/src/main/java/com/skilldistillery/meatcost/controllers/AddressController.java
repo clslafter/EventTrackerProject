@@ -30,7 +30,7 @@ public class AddressController {
 		return addressSvc.listAllAddresses();
 	}
 	
-	@GetMapping("addresss/{id}")
+	@GetMapping("addresses/{id}")
 	public Address getAddress (@PathVariable int id, HttpServletResponse res) {
 		Address address = addressSvc.showAddress(id);
 		if(address == null) {
