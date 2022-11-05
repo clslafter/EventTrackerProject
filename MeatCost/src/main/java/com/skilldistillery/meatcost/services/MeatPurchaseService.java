@@ -11,5 +11,10 @@ public interface MeatPurchaseService {
 	MeatPurchase updatePurchase(int purchaseId, MeatPurchase purchase);
 	boolean deletePurchase(int purchaseId);
 	
+	List<MeatPurchase> getByStoreId(int storeId);
+	List<MeatPurchase> getByStoreName(String name);
+	List<MeatPurchase> getByTypeOrCut(String keyword);
+	List<MeatPurchase> listByPricePerPoundBetween(double low, double high);
+	
 
 }

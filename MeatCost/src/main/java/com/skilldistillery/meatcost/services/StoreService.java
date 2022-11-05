@@ -10,5 +10,9 @@ public interface StoreService {
 	Store createStore(Store store);
 	Store updateStore(int storeId, Store store);
 	boolean deleteStore(int storeId);
+	
+	List<Store> getByCityOrState(String keyword);
+	
+	List<Store> getByStreet(String street);
 
 }
