@@ -38,6 +38,12 @@ public class StoreServiceImpl implements StoreService {
 	@Override
 	public Store createStore(Store store) {
 		
+		if (store.getAddress() != null) {
+			
+			store.setAddress(addressRepo.saveAndFlush(store.getAddress()));
+		}
+		
+		
 		return storeRepo.saveAndFlush(store);
 	}
 
