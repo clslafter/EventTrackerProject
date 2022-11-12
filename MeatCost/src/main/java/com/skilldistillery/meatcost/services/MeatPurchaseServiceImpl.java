@@ -55,7 +55,7 @@ public class MeatPurchaseServiceImpl implements MeatPurchaseService {
 		managed.setType(purchase.getType());
 		managed.setWeightInPounds(purchase.getWeightInPounds());
 		
-		return purchaseRepo.save(managed);
+		return purchaseRepo.saveAndFlush(managed);
 	}
 
 	@Override

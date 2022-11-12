@@ -1,23 +1,23 @@
-window.addEventListener('load', function(){
-	console.log('script.js loaded');
+window.addEventListener('load', function() {
+//	console.log('script.js loaded');
 	init();
 });
 
 function init() {
 	//TODO: setup event listeners
-	
+
 	//In an on load event lister, call a function that executes an 
 	//XMLHttpRequest to get all of your event objects.
 	//load initial data
 	loadMeatPurchases();
-	
+
 	//add event listerner to add Store Button
 	document.addStoreForm.addStore.addEventListener('click', buildStore);
 	//add event listener to add Purchase Button
 	document.addPurchaseForm.addPurchase.addEventListener('click', buildPurchase);
 	loadStores();
-	
-	
+
+
 }
 
 
@@ -25,19 +25,19 @@ function init() {
 
 
 function loadMeatPurchases() {
-	//TODO: XHR to get the list
-	//TODO GET api/purchases List of all purchases
- 	let xhr = new XMLHttpRequest();
+	// XHR to get the list
+	//GET api/purchases List of all purchases
+	let xhr = new XMLHttpRequest();
 	xhr.open('GET', '/api/purchases');
-	xhr.onreadystatechange = function(){
+	xhr.onreadystatechange = function() {
 		if (xhr.readyState === 4) {
 			if (xhr.status === 200) {
-				//TODO: show data
+				// show data
 				let purchases = JSON.parse(xhr.responseText);
 				displayPurchases(purchases);
 			}
 			else {
-				//TODO: display error
+				//display error
 				error('Error getting purchases' + xhr.status);
 			}
 		}
@@ -46,19 +46,19 @@ function loadMeatPurchases() {
 }
 
 
-function error (msg) {
+function error(msg) {
 	let errorsDiv = document.getElementById('errorsDiv');
 	errorsDiv.textContent = '';
 	let h4 = document.createElement('h4');
 	h4.textContent = msg;
 }
 
-function displayPurchases(purchases){
-	//TODO: add purchases to DOM
+function displayPurchases(purchases) {
+	//add purchases to DOM
 	let tbody = document.getElementById('purchaseTableBody');
 	tbody.textContent = '';
-	
-	if(purchases && Array.isArray(purchases) && purchases.length > 0 ) {
+
+	if (purchases && Array.isArray(purchases) && purchases.length > 0) {
 		for (let purchase of purchases) {
 			let tr = document.createElement('tr');
 			let td = document.createElement('td');
@@ -84,36 +84,36 @@ function displayPurchases(purchases){
 			tr.appendChild(td);
 			td = document.createElement('td');
 			let pdate = new Date(purchase.purchaseDate)
-			td.textContent = pdate.toDateString() + " " + pdate.getHours() + ":" + String(pdate.getMinutes()).padStart(2,'0');
+			td.textContent = pdate.toDateString() + " " + pdate.getHours() + ":" + String(pdate.getMinutes()).padStart(2, '0');
 			tr.appendChild(td);
 			td = document.createElement('td');
 			td.textContent = purchase.store.name;
 			tr.appendChild(td);
-			
+
 			tbody.appendChild(tr);
-			tr.addEventListener('click',function(e){
-			getPurchase(purchase.id);
-	});
-			
+			tr.addEventListener('click', function(e) {
+				getPurchase(purchase.id);
+			});
+
 		}
-	} 
-	//TODO: Button to add a purchase
-	
-	
+	}
+
+
+
 }
 
 function getPurchase(purchaseId) {
 	let xhr = new XMLHttpRequest();
 	xhr.open('GET', `/api/purchases/${purchaseId}`);
-	xhr.onreadystatechange = function(){
+	xhr.onreadystatechange = function() {
 		if (xhr.readyState === 4) {
 			if (xhr.status === 200) {
-				//TODO: show data
+				//show data
 				let purchase = JSON.parse(xhr.responseText);
 				displayPurchase(purchase);
 			}
 			else {
-				//TODO: display error
+				//display error
 				error('Error getting purchases' + xhr.status);
 			}
 		}
@@ -121,13 +121,13 @@ function getPurchase(purchaseId) {
 	xhr.send();
 }
 
-function displayPurchase (purchase) {
+function displayPurchase(purchase) {
 	let purchasesDiv = document.getElementById('purchasesDiv');
 	purchasesDiv.style.display = 'none';
-	
-	console.log(purchase);
-	
-	
+
+//	console.log(purchase);
+
+
 	let purchaseDiv = document.getElementById('purchaseByIdDiv');
 	purchaseDiv.textContent = '';
 	purchaseDiv.style.display = 'block';
@@ -154,8 +154,8 @@ function displayPurchase (purchase) {
 	li.textContent = `On Sale? : ${purchase.onSale ? 'Yes' : 'No'}`;
 	ul.appendChild(li);
 	li = document.createElement('li');
-	let pdate = new Date(purchase.purchaseDate)		
-	li.textContent = `Date of Purchase : ${pdate.toDateString() + " " + pdate.getHours() + ":" + String(pdate.getMinutes()).padStart(2,'0')}`;
+	let pdate = new Date(purchase.purchaseDate);
+	li.textContent = `Date of Purchase : ${pdate.toDateString() + " " + pdate.getHours() + ":" + String(pdate.getMinutes()).padStart(2, '0')}`;
 	ul.appendChild(li);
 	li = document.createElement('li');
 	li.textContent = `Store Name: ${purchase.store.name}`;
@@ -163,10 +163,10 @@ function displayPurchase (purchase) {
 	li = document.createElement('li');
 	li.textContent = `Street Address: ${purchase.store.address.street}`;
 	ul.appendChild(li);
-	if(purchase.store.address.street2) {	
-	li = document.createElement('li');
-	li.textContent = `Unit: ${purchase.store.address.street2}`;
-	ul.appendChild(li);
+	if (purchase.store.address.street2) {
+		li = document.createElement('li');
+		li.textContent = `Unit: ${purchase.store.address.street2}`;
+		ul.appendChild(li);
 	}
 	li = document.createElement('li');
 	li.textContent = `City: ${purchase.store.address.city}`;
@@ -177,44 +177,75 @@ function displayPurchase (purchase) {
 	li = document.createElement('li');
 	li.textContent = `Zip Code: ${purchase.store.address.zip}`;
 	ul.appendChild(li);
-	//TODO: Fill out the rest of the information here
-	
+
+
 	purchaseDiv.appendChild(ul);
-	
+
 	//Button to edit purchase.
+		let addStoreDiv = document.getElementById('addStoreDiv');
+		let addPurchaseDiv = document.getElementById('addPurchaseDiv');
+
+	let editButton = document.createElement('button');
+	editButton.textContent = 'Edit this Purchase';
+	purchaseDiv.appendChild(editButton);
+	editButton.addEventListener('click', function (e) {
+		e.preventDefault();
+		purchaseDiv.style.display = 'none';
+		addStoreDiv.style.disply = 'none';
+		addPurchaseDiv.style.display = 'none';
+		addStoreForm.style.display = 'none';
+		
+		buildEditPurchaseForm(purchase);
+	});
+	//How to pass purchase from display purchase into event listener method?
+	
 	//Button to delete purchase.
 	
-	
-	
+//	let editButton = document.createElement('button');
+//	editButton.textContent = 'Edit this Purchase';
+//	purchaseDiv.appendChild(editButton);
+//	editButton.addEventListener('click', function (e) {
+//		e.preventDefault();
+//		purchaseDiv.style.display = 'none';
+//		addStoreDiv.style.disply = 'none';
+//		addPurchaseDiv.style.display = 'none';
+//		addStoreForm.style.display = 'none';
+//		
+//		buildEditPurchaseForm(purchase);
+//	});
+//
+
+//button to go back to display purchase list
 	let backButton = document.createElement('button');
 	backButton.textContent = 'Back to List';
 	purchaseDiv.appendChild(backButton);
 	backButton.addEventListener('click', function(e) {
 		purchasesDiv.style.display = 'block';
 		purchaseDiv.style.display = 'none';
+		purchaseDiv.style.display = 'none';
 		loadMeatPurchases();
-		
+
 	})
-	
+
 }
 
 function buildStore(e) {
 	e.preventDefault();
 
-		let store = {
-			name: addStoreForm.name.value,
-			address: {
-				street: addStoreForm.street.value,
-				street2: addStoreForm.street2.value,
-				city: addStoreForm.city.value,
-				state: addStoreForm.state.value,
-				zip: addStoreForm.zip.value,
-				
-			}
-		};
+	let store = {
+		name: addStoreForm.name.value,
+		address: {
+			street: addStoreForm.street.value,
+			street2: addStoreForm.street2.value,
+			city: addStoreForm.city.value,
+			state: addStoreForm.state.value,
+			zip: addStoreForm.zip.value,
+
+		}
+	};
 
 
-		addNewStore(store);
+	addNewStore(store);
 }
 
 function addNewStore(store) {
@@ -227,7 +258,7 @@ function addNewStore(store) {
 		if (xhr.readyState === 4) {
 			if (xhr.status == 200 || xhr.status == 201) { // Ok or Created
 				let data = JSON.parse(xhr.responseText);
-				console.log(data);
+//				console.log(data);
 				displayStore(data);
 
 			}
@@ -240,7 +271,7 @@ function addNewStore(store) {
 	};
 
 
-	
+
 
 	let userStoreJson = JSON.stringify(store);
 	xhr.setRequestHeader("Content-type", "application/json");
@@ -252,19 +283,19 @@ function addNewStore(store) {
 function displayStore(store) {
 	let purchasesDiv = document.getElementById('purchasesDiv');
 	purchasesDiv.style.display = 'none';
-	
+
 	let addStoreDiv = document.getElementById('addStoreDiv');
 	addStoreDiv.style.display = 'none';
-	
-	
+
+
 	let storeAddedDiv = document.getElementById('storeAddedDiv');
 	storeAddedDiv.textContent = '';
 	storeAddedDiv.style.display = 'block';
-	
+
 	let h3 = document.createElement('h3');
 	h3.textContent = 'Store Successfully Added!';
 	storeAddedDiv.appendChild(h3);
-	
+
 	let ul = document.createElement('ul');
 	let li = document.createElement('li');
 	li.textContent = `Store Id: ${store.id}`;
@@ -275,10 +306,10 @@ function displayStore(store) {
 	li = document.createElement('li');
 	li.textContent = `Street Address: ${store.address.street}`;
 	ul.appendChild(li);
-	if(store.address.street2) {
-	li = document.createElement('li');
-	li.textContent = `Unit: ${store.address.street2}`;
-	ul.appendChild(li);
+	if (store.address.street2) {
+		li = document.createElement('li');
+		li.textContent = `Unit: ${store.address.street2}`;
+		ul.appendChild(li);
 	}
 	li = document.createElement('li');
 	li.textContent = `City: ${store.address.city}`;
@@ -289,15 +320,15 @@ function displayStore(store) {
 	li = document.createElement('li');
 	li.textContent = `Zip Code: ${store.address.zip}`;
 	ul.appendChild(li);
-	
-	
+
+
 	storeAddedDiv.appendChild(ul);
-	
+
 	//Button to edit purchase.
 	//Button to delete purchase.
-	
-	
-	
+
+
+
 	let backButton = document.createElement('button');
 	backButton.textContent = 'Back to List';
 	storeAddedDiv.appendChild(backButton);
@@ -305,25 +336,31 @@ function displayStore(store) {
 		purchasesDiv.style.display = 'block';
 		storeAddedDiv.style.display = 'none';
 		addStoreDiv.style.display = 'block';
-		
+
+
 	})
-	
+
 }
 
 function loadStores() {
 	let xhr = new XMLHttpRequest();
 	xhr.open('GET', '/api/stores');
-	xhr.onreadystatechange = function(){
+	xhr.onreadystatechange = function() {
 		if (xhr.readyState === 4) {
 			if (xhr.status === 200) {
 				//show data
 				let stores = JSON.parse(xhr.responseText);
-				let storeSelect = document.getElementById('storeSelect');
-				for(let store of stores) {
-					let option = document.createElement('option');
-					option.textContent = store.name;
-					option.value = store.id;
-					storeSelect.appendChild(option);
+				//selects from both add and edit menu
+				let storeSelects = document.getElementsByClassName('storeSelect');
+				//for every select object
+				for (let select of storeSelects) {
+				//create the dropdown based on the list of stores
+					for (let store of stores) {
+						let option = document.createElement('option');
+						option.textContent = store.name;
+						option.value = store.id;
+						select.appendChild(option);
+					}
 				}
 			}
 			else {
@@ -339,25 +376,25 @@ function loadStores() {
 function buildPurchase(e) {
 	e.preventDefault();
 
-		console.log(addPurchaseForm.onSale);
-		console.log(addPurchaseForm.onSale.checked);
-		
-		let purchase = {
-			type: addPurchaseForm.type.value,
-			cut: addPurchaseForm.cut.value,
-			priceInUsd: addPurchaseForm.priceInUsd.value,
-			pricePerPound: addPurchaseForm.pricePerPound.value,
-			weightInPounds: addPurchaseForm.weightInPounds.value,
-			onSale: addPurchaseForm.onSale.checked,
-			purchaseDate: addPurchaseForm.purchaseDate.value,
-			store: {
-				id: addPurchaseForm.store.value
-			}
-			
-		};
+//	console.log(addPurchaseForm.onSale);
+//	console.log(addPurchaseForm.onSale.checked);
+
+	let purchase = {
+		type: addPurchaseForm.type.value,
+		cut: addPurchaseForm.cut.value,
+		priceInUsd: addPurchaseForm.priceInUsd.value,
+		pricePerPound: addPurchaseForm.pricePerPound.value,
+		weightInPounds: addPurchaseForm.weightInPounds.value,
+		onSale: addPurchaseForm.onSale.checked,
+		purchaseDate: addPurchaseForm.purchaseDate.value,
+		store: {
+			id: addPurchaseForm.store.value
+		}
+
+	};
 
 
-		addNewPurchase(purchase);
+	addNewPurchase(purchase);
 }
 
 function addNewPurchase(purchase) {
@@ -370,7 +407,7 @@ function addNewPurchase(purchase) {
 		if (xhr.readyState === 4) {
 			if (xhr.status == 200 || xhr.status == 201) { // Ok or Created
 				let data = JSON.parse(xhr.responseText);
-				console.log(data);
+//				console.log(data);
 				getPurchase(data.id);
 
 			}
@@ -383,7 +420,7 @@ function addNewPurchase(purchase) {
 	};
 
 
-	
+
 
 	let userPurchaseJson = JSON.stringify(purchase);
 	xhr.setRequestHeader("Content-type", "application/json");
@@ -391,3 +428,98 @@ function addNewPurchase(purchase) {
 	xhr.send(userPurchaseJson);
 
 }
+
+function buildEditPurchaseForm (purchase) {
+
+	
+	
+	
+	let inputId = editPurchaseForm.id;
+	inputId.value = purchase.id;
+	
+	
+	
+	editPurchaseForm.type.value = purchase.type;
+	editPurchaseForm.cut.value = purchase.cut;
+	editPurchaseForm.priceInUsd.value = purchase.priceInUsd;
+	editPurchaseForm.pricePerPound.value = purchase.pricePerPound;
+	editPurchaseForm.weightInPounds.value = purchase.weightInPounds;
+	editPurchaseForm.onSale.value = purchase.onSale;
+	
+	let pdate = new Date(purchase.purchaseDate)
+	editPurchaseForm.purchaseDate.value = pdate.toISOString().substring(0,16);
+	//select the list of options from the loadStores function
+	
+	let options = document.getElementsByTagName('option');
+	//for each option, if the value is the same as purchase.store.id, make is have
+	//the "selected" artribute
+	for (let option of options) {
+		if (option.value === purchase.store.id){
+			option.setAttribute('selected', true);
+			option.selected = true;
+		}
+	}
+		
+// purchase should become what was taken in by the form as request body
+	
+	
+	editPurchaseForm.editPurchase.addEventListener('click', function(e){
+		e.preventDefault();
+	let updatedPurchase = {
+		id: purchase.id,
+		type: editPurchaseForm.type.value,
+		cut: editPurchaseForm.cut.value,
+		priceInUsd: editPurchaseForm.priceInUsd.value,
+		pricePerPound: editPurchaseForm.pricePerPound.value,
+		weightInPounds: editPurchaseForm.weightInPounds.value,
+		onSale: editPurchaseForm.onSale.checked,
+		purchaseDate: editPurchaseForm.purchaseDate.value,
+		store: {
+			id: editPurchaseForm.store.value
+		}
+		
+	};
+		
+		
+		editPurchase(purchase.id, updatedPurchase);
+	});
+	
+}
+
+function editPurchase(purchaseId, purchase) {
+	
+	
+	let xhr = new XMLHttpRequest();
+	xhr.open('PUT', `api/purchases/${purchaseId}`, true);
+
+
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState === 4) {
+			if (xhr.status == 200 || xhr.status == 201) { // Ok or Created
+				let data = JSON.parse(xhr.responseText);
+//				console.log(data);
+				
+				//??When updating, it shows the old purchase info, but if
+				//I edit again, it shows the updated version??
+				getPurchase(data.id);
+
+			}
+			else {
+				console.error("POST request failed.");
+				console.error(xhr.status + ': ' + xhr.responseText);
+				displayError('Error updating purchase: ' + xhr.status + ': ' + xhr.responseText);
+			}
+		}
+	};
+
+
+
+
+	let userPurchaseUpdateJson = JSON.stringify(purchase);
+	xhr.setRequestHeader("Content-type", "application/json");
+
+	xhr.send(userPurchaseUpdateJson);
+
+}
+
+

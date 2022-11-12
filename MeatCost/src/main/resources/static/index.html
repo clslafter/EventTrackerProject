@@ -52,15 +52,18 @@
 	<label for="weightInPounds">Weight in Pounds: </label><input type="number" name="weightInPounds" placeholder="Weight in Pounds"><br>
 	<label for="onSale">Was it on Sale?: </label><input type="checkbox" name="onSale"><br>
 	<label for="purchaseDate">Date and Time of Purchase: </label><input type="datetime-local" name="purchaseDate"><br>
-	<label for="store">Store: </label><select id="storeSelect" name="store"></select><br>
+	<label for="store">Store: </label><select class="storeSelect" name="store"></select><br>
 	
 			
 	<button name="addPurchase">Add Purchase</button>
 </form>
-</div>
+</div><br>
 
 
 <div id="purchasesDiv">
+<h3>All Purchases</h3>
+<p>Click on a Purchase to see its details</p>
+
 <table class="table table-striped table-hover">
  <thead>
   <tr>
@@ -78,6 +81,21 @@
 <tbody id="purchaseTableBody"></tbody>
 </table>
 </div>
+
+<div id="editPurchaseDiv">
+</div>
+<form name="editPurchaseForm">
+	<input type="hidden" name="id">
+	<label for="type">Type of Meat: </label><input type="text" name="type" required><br>
+	<label for="cut">Cut of Meat: </label><input type="text" name="cut" ><br>
+	<label for="priceInUsd">Price in USD: </label><input type="number" name="priceInUsd"><br>
+	<label for="pricePerPound">Price Per Pound: </label><input type="number" name="pricePerPound"><br>
+	<label for="weightInPounds">Weight in Pounds: </label><input type="number" name="weightInPounds"><br>
+	<label for="onSale">Was it on Sale?: </label><input type="checkbox" name="onSale"><br>
+	<label for="purchaseDate">Date and Time of Purchase: </label><input type="datetime-local" name="purchaseDate"><br>
+	<label for="store">Store: </label><select class="storeSelect" name="store"></select><br>		
+	<button name="editPurchase">Edit Purchase</button>
+</form>
 
 
 </div>
