@@ -45,7 +45,7 @@ public class MeatPurchaseController {
 	@PostMapping("purchases")
 	public MeatPurchase createNewPurchase (@RequestBody MeatPurchase purchase, HttpServletResponse res, HttpServletRequest req) {
 		try {
-			purchaseSvc.createPurchase(purchase);
+			purchase = purchaseSvc.createPurchase(purchase);
 			res.setStatus(201);
 			StringBuffer url = req.getRequestURL();
 			url.append("/").append(purchase.getId());

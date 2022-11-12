@@ -37,12 +37,14 @@ public class MeatPurchaseServiceImpl implements MeatPurchaseService {
 
 	@Override
 	public MeatPurchase createPurchase(MeatPurchase purchase) {
-		
+		System.out.println(purchase);
+		System.out.println(purchase.getStore());
 		return purchaseRepo.saveAndFlush(purchase);
 	}
 
 	@Override
 	public MeatPurchase updatePurchase(int purchaseId, MeatPurchase purchase) {
+		System.out.println(purchase);
 		MeatPurchase managed = showPurchase(purchaseId);
 		managed.setCut(purchase.getCut());
 		managed.setOnSale(purchase.isOnSale());

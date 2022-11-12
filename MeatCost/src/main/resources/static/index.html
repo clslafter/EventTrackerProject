@@ -17,9 +17,9 @@
 
 <div id="errorsDiv"></div>
 
-<div id="purchaseByIdDiv"></div>
+<div id="purchaseByIdDiv"></div><br>
 
-<div id="storeAddedDiv"></div>
+<div id="storeAddedDiv"></div><br>
 
 <!-- Form to view purchases by Store Name.  -->
 <!-- Form to view purchases by Price range.  -->
@@ -44,7 +44,18 @@
 
 <div id="addPurchaseDiv">
 <!-- Form to add purchase. Store drop-down.  -->
-<form>
+<form name="addPurchaseForm">
+	<label for="type">Type of Meat: </label><input type="text" name="type" placeholder="Type of Meat" required><br>
+	<label for="cut">Cut of Meat: </label><input type="text" name="cut" placeholder="Cut of Meat"><br>
+	<label for="priceInUsd">Price in USD: </label><input type="number" name="priceInUsd" placeholder="Price in USD"><br>
+	<label for="pricePerPound">Price Per Pound: </label><input type="number" name="pricePerPound" placeholder="Price Per Pound"><br>
+	<label for="weightInPounds">Weight in Pounds: </label><input type="number" name="weightInPounds" placeholder="Weight in Pounds"><br>
+	<label for="onSale">Was it on Sale?: </label><input type="checkbox" name="onSale"><br>
+	<label for="purchaseDate">Date and Time of Purchase: </label><input type="datetime-local" name="purchaseDate"><br>
+	<label for="store">Store: </label><select id="storeSelect" name="store"></select><br>
+	
+			
+	<button name="addPurchase">Add Purchase</button>
 </form>
 </div>
 

@@ -8,11 +8,14 @@ function init() {
 	
 	//In an on load event lister, call a function that executes an 
 	//XMLHttpRequest to get all of your event objects.
+	//load initial data
 	loadMeatPurchases();
 	
-	//TODO:load initial data
-	//TODO: add event listerner to add Store Button
+	//add event listerner to add Store Button
 	document.addStoreForm.addStore.addEventListener('click', buildStore);
+	//add event listener to add Purchase Button
+	document.addPurchaseForm.addPurchase.addEventListener('click', buildPurchase);
+	loadStores();
 	
 	
 }
@@ -81,7 +84,7 @@ function displayPurchases(purchases){
 			tr.appendChild(td);
 			td = document.createElement('td');
 			let pdate = new Date(purchase.purchaseDate)
-			td.textContent = pdate.toDateString();
+			td.textContent = pdate.toDateString() + " " + pdate.getHours() + ":" + String(pdate.getMinutes()).padStart(2,'0');
 			tr.appendChild(td);
 			td = document.createElement('td');
 			td.textContent = purchase.store.name;
@@ -122,6 +125,8 @@ function displayPurchase (purchase) {
 	let purchasesDiv = document.getElementById('purchasesDiv');
 	purchasesDiv.style.display = 'none';
 	
+	console.log(purchase);
+	
 	
 	let purchaseDiv = document.getElementById('purchaseByIdDiv');
 	purchaseDiv.textContent = '';
@@ -140,9 +145,39 @@ function displayPurchase (purchase) {
 	li.textContent = `Total Price: ${purchase.priceInUsd}`;
 	ul.appendChild(li);
 	li = document.createElement('li');
-	//TODO: Fill out the rest of the information here
+	li.textContent = `Price Per Pound: ${purchase.pricePerPound}`;
+	ul.appendChild(li);
+	li = document.createElement('li');
+	li.textContent = `Weight in Pounds : ${purchase.weightInPounds}`;
+	ul.appendChild(li);
+	li = document.createElement('li');
+	li.textContent = `On Sale? : ${purchase.onSale ? 'Yes' : 'No'}`;
+	ul.appendChild(li);
+	li = document.createElement('li');
+	let pdate = new Date(purchase.purchaseDate)		
+	li.textContent = `Date of Purchase : ${pdate.toDateString() + " " + pdate.getHours() + ":" + String(pdate.getMinutes()).padStart(2,'0')}`;
+	ul.appendChild(li);
+	li = document.createElement('li');
+	li.textContent = `Store Name: ${purchase.store.name}`;
+	ul.appendChild(li);
+	li = document.createElement('li');
 	li.textContent = `Street Address: ${purchase.store.address.street}`;
 	ul.appendChild(li);
+	if(purchase.store.address.street2) {	
+	li = document.createElement('li');
+	li.textContent = `Unit: ${purchase.store.address.street2}`;
+	ul.appendChild(li);
+	}
+	li = document.createElement('li');
+	li.textContent = `City: ${purchase.store.address.city}`;
+	ul.appendChild(li);
+	li = document.createElement('li');
+	li.textContent = `State: ${purchase.store.address.state}`;
+	ul.appendChild(li);
+	li = document.createElement('li');
+	li.textContent = `Zip Code: ${purchase.store.address.zip}`;
+	ul.appendChild(li);
+	//TODO: Fill out the rest of the information here
 	
 	purchaseDiv.appendChild(ul);
 	
@@ -157,6 +192,7 @@ function displayPurchase (purchase) {
 	backButton.addEventListener('click', function(e) {
 		purchasesDiv.style.display = 'block';
 		purchaseDiv.style.display = 'none';
+		loadMeatPurchases();
 		
 	})
 	
@@ -164,14 +200,6 @@ function displayPurchase (purchase) {
 
 function buildStore(e) {
 	e.preventDefault();
-//	let inputs = [];
-	
-//	for (let child of e.target.parentElement.children) {
-//			if (child.tagName === 'INPUT' || child.tagName === 'SELECT') {
-//				console.log(child.value);
-//				inputs.push(child.value);
-//			}
-//		}
 
 		let store = {
 			name: addStoreForm.name.value,
@@ -247,9 +275,11 @@ function displayStore(store) {
 	li = document.createElement('li');
 	li.textContent = `Street Address: ${store.address.street}`;
 	ul.appendChild(li);
+	if(store.address.street2) {
 	li = document.createElement('li');
 	li.textContent = `Unit: ${store.address.street2}`;
 	ul.appendChild(li);
+	}
 	li = document.createElement('li');
 	li.textContent = `City: ${store.address.city}`;
 	ul.appendChild(li);
@@ -259,7 +289,7 @@ function displayStore(store) {
 	li = document.createElement('li');
 	li.textContent = `Zip Code: ${store.address.zip}`;
 	ul.appendChild(li);
-	//TODO: Fill out the rest of the information here
+	
 	
 	storeAddedDiv.appendChild(ul);
 	
@@ -278,4 +308,86 @@ function displayStore(store) {
 		
 	})
 	
+}
+
+function loadStores() {
+	let xhr = new XMLHttpRequest();
+	xhr.open('GET', '/api/stores');
+	xhr.onreadystatechange = function(){
+		if (xhr.readyState === 4) {
+			if (xhr.status === 200) {
+				//show data
+				let stores = JSON.parse(xhr.responseText);
+				let storeSelect = document.getElementById('storeSelect');
+				for(let store of stores) {
+					let option = document.createElement('option');
+					option.textContent = store.name;
+					option.value = store.id;
+					storeSelect.appendChild(option);
+				}
+			}
+			else {
+				//display error
+				error('Error getting purchases' + xhr.status);
+			}
+		}
+	};
+	xhr.send();
+}
+
+
+function buildPurchase(e) {
+	e.preventDefault();
+
+		console.log(addPurchaseForm.onSale);
+		console.log(addPurchaseForm.onSale.checked);
+		
+		let purchase = {
+			type: addPurchaseForm.type.value,
+			cut: addPurchaseForm.cut.value,
+			priceInUsd: addPurchaseForm.priceInUsd.value,
+			pricePerPound: addPurchaseForm.pricePerPound.value,
+			weightInPounds: addPurchaseForm.weightInPounds.value,
+			onSale: addPurchaseForm.onSale.checked,
+			purchaseDate: addPurchaseForm.purchaseDate.value,
+			store: {
+				id: addPurchaseForm.store.value
+			}
+			
+		};
+
+
+		addNewPurchase(purchase);
+}
+
+function addNewPurchase(purchase) {
+
+	let xhr = new XMLHttpRequest();
+	xhr.open('POST', 'api/purchases', true);
+
+
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState === 4) {
+			if (xhr.status == 200 || xhr.status == 201) { // Ok or Created
+				let data = JSON.parse(xhr.responseText);
+				console.log(data);
+				getPurchase(data.id);
+
+			}
+			else {
+				console.error("POST request failed.");
+				console.error(xhr.status + ': ' + xhr.responseText);
+				displayError('Error creating purchase: ' + xhr.status + ': ' + xhr.responseText);
+			}
+		}
+	};
+
+
+	
+
+	let userPurchaseJson = JSON.stringify(purchase);
+	xhr.setRequestHeader("Content-type", "application/json");
+
+	xhr.send(userPurchaseJson);
+
 }
