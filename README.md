@@ -57,6 +57,8 @@ From the front end, the user can
   * For similar methods, like find store by city and find store by street, it is necessary to make the mapping different enough for the program to be able to discern, or it becomes ambiguous mapping
   * JsonIgnoreProperties is useful for being able to list other entities as part of the search entity without causing a stack overflow
 
+I was particularly proud of having figured out the dates format to display dates in a readable form, and also the toISOString with a substring to send dates from Javascript to the HTML form to prepopulate a form value as a datetime-local type.
+
 The front end part of this project resulted in lots of time spent solving issues that turned out to be minor fixes.
 One issue that took me several hours on the edit part of the project was a result of saving the values from the form too soon, so the new purchase creation from the form only needed to be moved down a few lines into the click event.
 
