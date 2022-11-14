@@ -41,7 +41,7 @@ function loadMeatPurchases() {
 	// XHR to get the list
 	//GET api/purchases List of all purchases
 	let xhr = new XMLHttpRequest();
-	xhr.open('GET', '/api/purchases');
+	xhr.open('GET', 'api/purchases');
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState === 4) {
 			if (xhr.status === 200) {
@@ -142,6 +142,8 @@ function displayPurchases(purchases) {
 
 			tbody.appendChild(tr);
 			tr.addEventListener('click', function(e) {
+				console.log("cheching purchase in tr event listener: " + purchase);
+				console.log(purchase);
 				e.preventDefault();
 				getPurchase(purchase.id);
 			});
@@ -167,7 +169,7 @@ function displayPurchases(purchases) {
 
 function getPurchase(purchaseId) {
 	let xhr = new XMLHttpRequest();
-	xhr.open('GET', `/api/purchases/${purchaseId}`);
+	xhr.open('GET', `api/purchases/${purchaseId}`);
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState === 4) {
 			if (xhr.status === 200) {
@@ -439,7 +441,7 @@ function displayStore(store) {
 
 function loadStores() {
 	let xhr = new XMLHttpRequest();
-	xhr.open('GET', '/api/stores');
+	xhr.open('GET', 'api/stores');
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState === 4) {
 			if (xhr.status === 200) {
@@ -655,7 +657,7 @@ function deletePurchase(purchaseId) {
 	//api/purchases/purchaseId
 
 	let xhr = new XMLHttpRequest();
-	xhr.open('DELETE', `/api/purchases/${purchaseId}`);
+	xhr.open('DELETE', `api/purchases/${purchaseId}`);
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState === 4) {
 			if (xhr.status === 204) {
