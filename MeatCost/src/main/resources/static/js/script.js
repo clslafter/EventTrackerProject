@@ -27,8 +27,34 @@ function init() {
 //		getPurchase(purchaseId);
 //	});
 
-
 	loadStores();
+	
+	
+	let editButton = document.getElementById('editButton');
+	editButton.addEventListener('click', function(e) {
+		e.preventDefault();
+				
+		let updatedPurchase = {
+			id: editPurchaseForm.id.value,
+			type: editPurchaseForm.type.value,
+			cut: editPurchaseForm.cut.value,
+			priceInUsd: editPurchaseForm.priceInUsd.value,
+			pricePerPound: editPurchaseForm.pricePerPound.value,
+			weightInPounds: editPurchaseForm.weightInPounds.value,
+			onSale: editPurchaseForm.onSale.checked,
+			purchaseDate: editPurchaseForm.purchaseDate.value,
+			store: {
+				id: editPurchaseForm.store.value
+			}
+
+		};
+		console.log("New Object built: " + updatedPurchase);
+
+		editPurchase(updatedPurchase.id, updatedPurchase);
+		
+		//e.target.parentElement.reset();
+		
+	});
 
 
 }
@@ -532,6 +558,7 @@ function buildEditPurchaseForm(purchase) {
 	console.log("checking value in build edit purchase form: " + purchase.id);
 
 
+	editPurchaseForm.id.value = purchase.id;
 	editPurchaseForm.type.value = purchase.type;
 	editPurchaseForm.cut.value = purchase.cut;
 	editPurchaseForm.priceInUsd.value = purchase.priceInUsd;
@@ -571,29 +598,31 @@ function buildEditPurchaseForm(purchase) {
 	// purchase should become what was taken in by the form as request body
 
 	
-	let editButton = document.getElementById('editButton');
-	editButton.addEventListener('click', function(e) {
-		e.preventDefault();
-				
-		let updatedPurchase = {
-			id: purchase.id,
-			type: editPurchaseForm.type.value,
-			cut: editPurchaseForm.cut.value,
-			priceInUsd: editPurchaseForm.priceInUsd.value,
-			pricePerPound: editPurchaseForm.pricePerPound.value,
-			weightInPounds: editPurchaseForm.weightInPounds.value,
-			onSale: editPurchaseForm.onSale.checked,
-			purchaseDate: editPurchaseForm.purchaseDate.value,
-			store: {
-				id: editPurchaseForm.store.value
-			}
-
-		};
-		console.log("New Object built: " + updatedPurchase);
-
-		editPurchase(purchase.id, updatedPurchase);
-		
-	});
+//	let editButton = document.getElementById('editButton');
+//	editButton.addEventListener('click', function(e) {
+//		e.preventDefault();
+//				
+//		let updatedPurchase = {
+//			id: purchase.id,
+//			type: editPurchaseForm.type.value,
+//			cut: editPurchaseForm.cut.value,
+//			priceInUsd: editPurchaseForm.priceInUsd.value,
+//			pricePerPound: editPurchaseForm.pricePerPound.value,
+//			weightInPounds: editPurchaseForm.weightInPounds.value,
+//			onSale: editPurchaseForm.onSale.checked,
+//			purchaseDate: editPurchaseForm.purchaseDate.value,
+//			store: {
+//				id: editPurchaseForm.store.value
+//			}
+//
+//		};
+//		console.log("New Object built: " + updatedPurchase);
+//
+//		editPurchase(purchase.id, updatedPurchase);
+//		
+//		//e.target.parentElement.reset();
+//		
+//	});
 
 
 	let editPurchaseDiv = document.getElementById('editPurchaseDiv');
