@@ -17,9 +17,26 @@
 
 <div id="errorsDiv"></div>
 
+<div id="deleteDiv"></div>
+
+<!--  <div id="getByIdDiv">
+	<form name="getByIdForm">
+	<label for="getById">Get Purchase By Id</label><input type="number" name="purchaseById" required>
+	<button name="getById">Get Purchase</button>
+	</form>
+</div><br>-->
+
 <div id="purchaseByIdDiv"></div><br>
 
+<!--  <div id="addDeleteButtons">
+<button type="button" id="addPurchaseButt">Add Purchase</button>
+</div> -->
+
 <div id="storeAddedDiv"></div><br>
+
+<div id="averages">
+<h3>Average meat price per pound:</h3>
+</div>
 
 <!-- Form to view purchases by Store Name.  -->
 <!-- Form to view purchases by Price range.  -->
@@ -83,7 +100,6 @@
 </div>
 
 <div id="editPurchaseDiv">
-</div>
 <form name="editPurchaseForm">
 	<input type="hidden" name="id">
 	<label for="type">Type of Meat: </label><input type="text" name="type" required><br>
@@ -94,8 +110,9 @@
 	<label for="onSale">Was it on Sale?: </label><input type="checkbox" name="onSale"><br>
 	<label for="purchaseDate">Date and Time of Purchase: </label><input type="datetime-local" name="purchaseDate"><br>
 	<label for="store">Store: </label><select class="storeSelect" name="store"></select><br>		
-	<button name="editPurchase">Edit Purchase</button>
+	<button id="editButton" name="editPurchase">Edit Purchase</button>
 </form>
+</div>
 
 
 </div>

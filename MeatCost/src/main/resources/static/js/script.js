@@ -1,5 +1,5 @@
 window.addEventListener('load', function() {
-//	console.log('script.js loaded');
+	
 	init();
 });
 
@@ -11,10 +11,23 @@ function init() {
 	//load initial data
 	loadMeatPurchases();
 
-	//add event listerner to add Store Button
+	//add event listener to add Store Button
 	document.addStoreForm.addStore.addEventListener('click', buildStore);
 	//add event listener to add Purchase Button
 	document.addPurchaseForm.addPurchase.addEventListener('click', buildPurchase);
+	//add event listener to getById button
+//	document.purchaseByIdForm.getById.addEventListener('click', function(e) {
+//
+//		e.preventDefault();
+//		console.log('Purchase by Id event Listener')
+//		
+//		let purchaseId = purchaseByIdForm.purchaseById.value;
+//		console.log(purchaseId);
+//
+//		getPurchase(purchaseId);
+//	});
+
+
 	loadStores();
 
 
@@ -46,14 +59,45 @@ function loadMeatPurchases() {
 }
 
 
+
 function error(msg) {
 	let errorsDiv = document.getElementById('errorsDiv');
 	errorsDiv.textContent = '';
 	let h4 = document.createElement('h4');
+	errorsDiv.appendChild(h4);
 	h4.textContent = msg;
+	h4.style.color = "red";
 }
 
 function displayPurchases(purchases) {
+//	let addStoreDiv = document.getElementById('addStoreDiv');
+//	addStoreDiv.style.display = 'none';
+//
+//	let addPurchaseDiv = document.getElementById('addPurchaseDiv');
+//	addPurchaseDiv.style.display = 'none';
+//
+	let editPurchaseDiv = document.getElementById('editPurchaseDiv');
+	editPurchaseDiv.style.display = 'none';
+	
+	let purchasesDiv = document.getElementById('purchasesDiv');
+	purchasesDiv.style.display = 'block';
+	
+	
+	
+//	let averagesDiv = document.getElementById('averages');
+//	averagesDiv.style.display = 'block';
+
+//	let storeAddedDiv = document.getElementById('storeAddedDiv');
+//	storeAddedDiv.style.display = 'none';
+
+	
+
+	
+		
+
+	let count = 0;
+	let sum = 0;
+	let ave = 0;
 	//add purchases to DOM
 	let tbody = document.getElementById('purchaseTableBody');
 	tbody.textContent = '';
@@ -75,6 +119,12 @@ function displayPurchases(purchases) {
 			tr.appendChild(td);
 			td = document.createElement('td');
 			td.textContent = purchase.pricePerPound;
+
+			count++;
+			sum += purchase.pricePerPound;
+
+
+
 			tr.appendChild(td);
 			td = document.createElement('td');
 			td.textContent = purchase.weightInPounds;
@@ -92,10 +142,23 @@ function displayPurchases(purchases) {
 
 			tbody.appendChild(tr);
 			tr.addEventListener('click', function(e) {
+				e.preventDefault();
 				getPurchase(purchase.id);
 			});
 
 		}
+		
+		let average = document.getElementById('averages');
+		ave = sum / count;
+		let aveNum = document.getElementById('aveNum');
+		if(aveNum != null) {
+			average.removeChild(aveNum);
+		}
+		let p = document.createElement('p');
+		p.id = "aveNum";
+		
+		p.textContent = ave;
+		average.appendChild(p);
 	}
 
 
@@ -114,7 +177,7 @@ function getPurchase(purchaseId) {
 			}
 			else {
 				//display error
-				error('Error getting purchases' + xhr.status);
+				error('Error getting purchases: ' + xhr.status);
 			}
 		}
 	};
@@ -122,10 +185,30 @@ function getPurchase(purchaseId) {
 }
 
 function displayPurchase(purchase) {
+	
+	
 	let purchasesDiv = document.getElementById('purchasesDiv');
 	purchasesDiv.style.display = 'none';
 
-//	console.log(purchase);
+	let averagesDiv = document.getElementById('averages');
+	averagesDiv.style.display = 'none';
+	
+		let addStoreDiv = document.getElementById('addStoreDiv');
+	addStoreDiv.style.display = 'block';
+
+	let addPurchaseDiv = document.getElementById('addPurchaseDiv');
+	addPurchaseDiv.style.display = 'block';
+	
+
+
+//	let addStoreDiv = document.getElementById('addStoreDiv');
+//	addStoreDiv.style.display = 'none';
+//	let addPurchaseDiv = document.getElementById('addPurchaseDiv');
+//	addPurchaseDiv.style.display = 'none';
+	
+	
+
+	//	console.log(purchase);
 
 
 	let purchaseDiv = document.getElementById('purchaseByIdDiv');
@@ -134,6 +217,7 @@ function displayPurchase(purchase) {
 	let ul = document.createElement('ul');
 	let li = document.createElement('li');
 	li.textContent = `Purchase Id: ${purchase.id}`;
+	console.log("Diplay Purchase purchase id: " + purchase.id);
 	ul.appendChild(li);
 	li = document.createElement('li');
 	li.textContent = `Type of Meat: ${purchase.type}`;
@@ -177,56 +261,66 @@ function displayPurchase(purchase) {
 	li = document.createElement('li');
 	li.textContent = `Zip Code: ${purchase.store.address.zip}`;
 	ul.appendChild(li);
-
+	console.log("Display Purchase: " + purchase);
 
 	purchaseDiv.appendChild(ul);
 
 	//Button to edit purchase.
-		let addStoreDiv = document.getElementById('addStoreDiv');
-		let addPurchaseDiv = document.getElementById('addPurchaseDiv');
 
 	let editButton = document.createElement('button');
 	editButton.textContent = 'Edit this Purchase';
 	purchaseDiv.appendChild(editButton);
-	editButton.addEventListener('click', function (e) {
+	editButton.addEventListener('click', function(e) {
 		e.preventDefault();
 		purchaseDiv.style.display = 'none';
-		addStoreDiv.style.disply = 'none';
-		addPurchaseDiv.style.display = 'none';
-		addStoreForm.style.display = 'none';
-		
-		buildEditPurchaseForm(purchase);
-	});
-	//How to pass purchase from display purchase into event listener method?
-	
-	//Button to delete purchase.
-	
-//	let editButton = document.createElement('button');
-//	editButton.textContent = 'Edit this Purchase';
-//	purchaseDiv.appendChild(editButton);
-//	editButton.addEventListener('click', function (e) {
-//		e.preventDefault();
-//		purchaseDiv.style.display = 'none';
 //		addStoreDiv.style.disply = 'none';
 //		addPurchaseDiv.style.display = 'none';
 //		addStoreForm.style.display = 'none';
-//		
-//		buildEditPurchaseForm(purchase);
-//	});
-//
 
-//button to go back to display purchase list
+	let addStoreDiv = document.getElementById('addStoreDiv');
+	addStoreDiv.style.display = 'none';
+
+	let addPurchaseDiv = document.getElementById('addPurchaseDiv');
+	addPurchaseDiv.style.display = 'none';
+
+	let editPurchaseDiv = document.getElementById('editPurchaseDiv');
+		editPurchaseDiv.style.display = 'block';
+		
+	
+	
+
+		buildEditPurchaseForm(purchase);
+	});
+
+
+	//Button to delete purchase.
+
+	let deleteButton = document.createElement('button');
+	deleteButton.textContent = 'Delete this Purchase';
+	purchaseDiv.appendChild(deleteButton);
+	deleteButton.addEventListener('click', function(e) {
+		e.preventDefault();
+		purchasesDiv.style.display = 'block';
+		purchaseDiv.style.display = 'none';
+		averagesDiv.style.display = 'block';
+			loadMeatPurchases();
+		deletePurchase(purchase.id);
+	});
+
+
+	//button to go back to display purchase list
 	let backButton = document.createElement('button');
 	backButton.textContent = 'Back to List';
 	purchaseDiv.appendChild(backButton);
 	backButton.addEventListener('click', function(e) {
 		purchasesDiv.style.display = 'block';
 		purchaseDiv.style.display = 'none';
-		purchaseDiv.style.display = 'none';
+		averagesDiv.style.display = 'block';
+	
 		loadMeatPurchases();
 
 	})
-
+	
 }
 
 function buildStore(e) {
@@ -258,14 +352,14 @@ function addNewStore(store) {
 		if (xhr.readyState === 4) {
 			if (xhr.status == 200 || xhr.status == 201) { // Ok or Created
 				let data = JSON.parse(xhr.responseText);
-//				console.log(data);
+				//				console.log(data);
 				displayStore(data);
 
 			}
 			else {
 				console.error("POST request failed.");
 				console.error(xhr.status + ': ' + xhr.responseText);
-				displayError('Error creating store: ' + xhr.status + ': ' + xhr.responseText);
+				error('Error creating store: ' + xhr.status + ': ' + xhr.responseText);
 			}
 		}
 	};
@@ -334,9 +428,10 @@ function displayStore(store) {
 	storeAddedDiv.appendChild(backButton);
 	backButton.addEventListener('click', function(e) {
 		purchasesDiv.style.display = 'block';
-		storeAddedDiv.style.display = 'none';
-		addStoreDiv.style.display = 'block';
-
+		purchaseDiv.style.display = 'none';
+		averagesDiv.style.display = 'block';
+	
+		loadMeatPurchases();
 
 	})
 
@@ -354,7 +449,7 @@ function loadStores() {
 				let storeSelects = document.getElementsByClassName('storeSelect');
 				//for every select object
 				for (let select of storeSelects) {
-				//create the dropdown based on the list of stores
+					//create the dropdown based on the list of stores
 					for (let store of stores) {
 						let option = document.createElement('option');
 						option.textContent = store.name;
@@ -376,8 +471,8 @@ function loadStores() {
 function buildPurchase(e) {
 	e.preventDefault();
 
-//	console.log(addPurchaseForm.onSale);
-//	console.log(addPurchaseForm.onSale.checked);
+	//	console.log(addPurchaseForm.onSale);
+	//	console.log(addPurchaseForm.onSale.checked);
 
 	let purchase = {
 		type: addPurchaseForm.type.value,
@@ -407,7 +502,7 @@ function addNewPurchase(purchase) {
 		if (xhr.readyState === 4) {
 			if (xhr.status == 200 || xhr.status == 201) { // Ok or Created
 				let data = JSON.parse(xhr.responseText);
-//				console.log(data);
+				//				console.log(data);
 				getPurchase(data.id);
 
 			}
@@ -429,66 +524,102 @@ function addNewPurchase(purchase) {
 
 }
 
-function buildEditPurchaseForm (purchase) {
+function buildEditPurchaseForm(purchase) {
+	
 
-	
-	
-	
-	let inputId = editPurchaseForm.id;
-	inputId.value = purchase.id;
-	
-	
-	
+	console.log("checking value in build edit purchase form: " + purchase.id);
+
+
 	editPurchaseForm.type.value = purchase.type;
 	editPurchaseForm.cut.value = purchase.cut;
 	editPurchaseForm.priceInUsd.value = purchase.priceInUsd;
 	editPurchaseForm.pricePerPound.value = purchase.pricePerPound;
 	editPurchaseForm.weightInPounds.value = purchase.weightInPounds;
 	editPurchaseForm.onSale.value = purchase.onSale;
-	
+
 	let pdate = new Date(purchase.purchaseDate)
-	editPurchaseForm.purchaseDate.value = pdate.toISOString().substring(0,16);
+	editPurchaseForm.purchaseDate.value = pdate.toISOString().substring(0, 16);
 	//select the list of options from the loadStores function
-	
+
 	let options = document.getElementsByTagName('option');
 	//for each option, if the value is the same as purchase.store.id, make is have
 	//the "selected" artribute
 	for (let option of options) {
-		if (option.value === purchase.store.id){
+		if(option.selected !== null || option.selected !== '') {
+			option.selected = '';
+		}
+		
+		if (option.value === purchase.store.id) {
+			
+			
 			option.setAttribute('selected', true);
 			option.selected = true;
 		}
 	}
+	
+	
 		
-// purchase should become what was taken in by the form as request body
+		
+
+
+
+	//button to go back to display purchase list
+
+
+	// purchase should become what was taken in by the form as request body
+
 	
-	
-	editPurchaseForm.editPurchase.addEventListener('click', function(e){
+	let editButton = document.getElementById('editButton');
+	editButton.addEventListener('click', function(e) {
 		e.preventDefault();
-	let updatedPurchase = {
-		id: purchase.id,
-		type: editPurchaseForm.type.value,
-		cut: editPurchaseForm.cut.value,
-		priceInUsd: editPurchaseForm.priceInUsd.value,
-		pricePerPound: editPurchaseForm.pricePerPound.value,
-		weightInPounds: editPurchaseForm.weightInPounds.value,
-		onSale: editPurchaseForm.onSale.checked,
-		purchaseDate: editPurchaseForm.purchaseDate.value,
-		store: {
-			id: editPurchaseForm.store.value
-		}
-		
-	};
-		
-		
+				
+		let updatedPurchase = {
+			id: purchase.id,
+			type: editPurchaseForm.type.value,
+			cut: editPurchaseForm.cut.value,
+			priceInUsd: editPurchaseForm.priceInUsd.value,
+			pricePerPound: editPurchaseForm.pricePerPound.value,
+			weightInPounds: editPurchaseForm.weightInPounds.value,
+			onSale: editPurchaseForm.onSale.checked,
+			purchaseDate: editPurchaseForm.purchaseDate.value,
+			store: {
+				id: editPurchaseForm.store.value
+			}
+
+		};
+		console.log("New Object built: " + updatedPurchase);
+
 		editPurchase(purchase.id, updatedPurchase);
+		
 	});
+
+
+	let editPurchaseDiv = document.getElementById('editPurchaseDiv');
+	let editBackButton = document.getElementById('editBackButton');
+	if( editBackButton !== null) {
+		editPurchaseDiv.removeChild(editBackButton);
+	}
 	
+	let backButton = document.createElement('button');
+	backButton.textContent = 'Back to List';
+	backButton.id = 'editBackButton';
+	editPurchaseDiv.appendChild(backButton);
+	backButton.addEventListener('click', function(e) {
+		let purchasesDiv = document.getElementById('purchasesDiv');
+//		let purchaseDiv = document.getElementById('purchaseById');
+		let averagesDiv = document.getElementById('averages');
+		purchasesDiv.style.display = 'block';
+//		purchaseDiv.style.display = 'none';
+		averagesDiv.style.display = 'block';
+	
+		loadMeatPurchases();
+
+	})
 }
 
 function editPurchase(purchaseId, purchase) {
-	
-	
+
+
 	let xhr = new XMLHttpRequest();
 	xhr.open('PUT', `api/purchases/${purchaseId}`, true);
 
@@ -497,11 +628,9 @@ function editPurchase(purchaseId, purchase) {
 		if (xhr.readyState === 4) {
 			if (xhr.status == 200 || xhr.status == 201) { // Ok or Created
 				let data = JSON.parse(xhr.responseText);
-//				console.log(data);
+				console.log("Transmitting data through XHR: " + data);
+				getPurchase(purchaseId);
 				
-				//??When updating, it shows the old purchase info, but if
-				//I edit again, it shows the updated version??
-				getPurchase(data.id);
 
 			}
 			else {
@@ -522,4 +651,34 @@ function editPurchase(purchaseId, purchase) {
 
 }
 
+function deletePurchase(purchaseId) {
+	//api/purchases/purchaseId
+
+	let xhr = new XMLHttpRequest();
+	xhr.open('DELETE', `/api/purchases/${purchaseId}`);
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState === 4) {
+			if (xhr.status === 204) {
+				//show data
+				//				let data = JSON.parse(xhr.responseText);
+				//				console.log(data);
+				deleteSuccess('The purchase has been successfully deleted!')
+				init();
+			}
+			else {
+				//display error
+				error('Error deleting purchase: ' + xhr.status);
+			}
+		}
+	};
+	xhr.send();
+}
+
+function deleteSuccess(msg) {
+	let deleteDiv = document.getElementById('deleteDiv');
+	deleteDiv.textContent = '';
+	let h4 = document.createElement('h4');
+	deleteDiv.appendChild(h4);
+	h4.textContent = msg;
+}
 
