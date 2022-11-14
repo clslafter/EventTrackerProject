@@ -5,49 +5,37 @@
 This is a web based application that allows the user to track the price of meat over time through purchases made.
 
 ## Description
-The user can
-  * Retrieve a list of purchases, which will include the store and its address
-    http://localhost:8086/api/purchases
-  * Retrieve a purchase using its id in the database
-    http://localhost:8086/api/purchases/id
+On the back end there is the ability to
+  * Retrieve a list of purchases, which will include the store and its address   
+  * Retrieve a purchase using its id in the database=
   * Create a new purchase which will be persisted in the database
-    http://localhost:8086/api/purchases
   * Update a purchase to be saved in the database
-    http://localhost:8086/api/purchases/id
   * Delete a purchase from the database
-    http://localhost:8086/api/purchases/id
   * Retrieve a list of purchases by the type of meat or the cut of meat
-  http://localhost:8086/api/purchases/search/{keyword}
   * Retrieve a list of purchases by the store id in the database
-    http://localhost:8086/api/stores/id/purchases
   * Retrieve a list of purchases by the store name
-    http://localhost:8086/api/stores/search/name/purchases
   * Retrieve a list of purchases by a given price range
-    http://localhost:8086/api/purchases/search/price/low/high
   * Retrieve the list of stores in the database, which will include purchases made at that store and the address
-    http://localhost:8086/api/stores
   * Retrieve a store by its id in the database
-    http://localhost:8086/api/stores/id
   * Create a store which will be persisted in the database
-    http://localhost:8086/api/stores
   * Update a store to be saved in the database
-    http://localhost:8086/api/stores/id
   * Delete a store from the database
-    http://localhost:8086/api/stores/id
   * Retrieve a list of stores by city or state
-    http://localhost:8086/api/stores/search/keyword
   * Retrieve a list of stores by street name
-    http://localhost:8086/api/stores/search/street/streetName
   * Retrieve the list of addresses
-    http://localhost:8086/api/addresses
   * Retrieve an address by its id in the database
-    http://localhost:8086/api/addresses/id
   * Create a new address which will be persisted in the database
-    http://localhost:8086/api/addresses
   * Update an address to be saved in the database
-    http://localhost:8086/api/addresses/id
   * Delete an address from the database
-    http://localhost:8086/api/addresses/id
+
+From the front end, the user can 
+ * view a list of all the purchase
+ * select a purchase from the list to view its details, including the store name and address
+ * edit a purchase
+ * add a purchase
+ * add a store
+ * delete a store
+ * view the average cost of meat per pound from all the purchases
 
 
 ## Technologies Used
@@ -69,9 +57,22 @@ The user can
   * For similar methods, like find store by city and find store by street, it is necessary to make the mapping different enough for the program to be able to discern, or it becomes ambiguous mapping
   * JsonIgnoreProperties is useful for being able to list other entities as part of the search entity without causing a stack overflow
 
+The front end part of this project resulted in lots of time spent solving issues that turned out to be minor fixes.
+One issue that took me several hours on the edit part of the project was a result of saving the values from the form too soon, so the new purchase creation from the form only needed to be moved down a few lines into the click event.
+
+There were other issues, almost all related to click events where displays would get repeated with each click, and I'd have to figure out where to delete or nullify an element before the next click. I think there are probably more issues with clicks that I have not caught because I spent so much time on a few issues, leaving me very little time to test the functionality of every piece of the project.
+
+There was another challenge with hiding elements and making them reappear that wasn't working for hours. It perplexed me, and a classmate reminded me of the cmd+shift+r for a hard reset. Once I remembered that, everything was working.
+
+Another very stressing issue was that when I deployed the project to EC2, the purchase list was not loading, and neither was the store list. I would not have figured this out if it weren't for an instructor answering a fellow classmate's question about the leading slash. That solved the issue.
+
+There is one final issue which I could not solve. I'm sure it has to do with a click event, but cannot figure out where to nullify and what exactly to nullify. The issue stems when editing a purchase, going back to the purchase list, and clicking a new purchase to edit. In this sequence of events, the xhr method pulls in the new and all previous purchases and edits them all to the new information. I have tried various console.logs to figure out where the problem is, and a classmate also attempted to help. I think I've localized the issue to something involving the click event on the table row that's in the loop to create the purchase list. I noticed that on the second click, two objects are passed into the xhr get, and each click after that adds another object without the previous object being dropped. While I think I've figured out where the issue is, I haven't figured out how to remove the previous objects from being passed through.
+
+If I could have figured out this issue and had more time, I would have added more get requests based on the back-end functionality and the ability to delete a store. I would have also created a new method in the repository to get purchases by a date range to figure the averages by a specific date range. Lastly, I would have spent more time on the workflow and appearance of the project.
+
 ##How to Download and Run
-  Once the application is deployed, go to:
-  http://34.199.44.84:8080/MeatCost
+  Go to:
+  [http://34.199.44.84:8080/MeatCost](http://34.199.44.84:8080/MeatCost/)
 
 
 
