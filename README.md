@@ -52,6 +52,7 @@ From the front end, the user can
   * Chrome
   * git/gitHub
   * Javascript
+  * Postman
 
 
 ##Lessons Learned
