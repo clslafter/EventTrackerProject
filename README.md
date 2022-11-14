@@ -51,6 +51,7 @@ From the front end, the user can
   * Spring Tools Suite
   * Chrome
   * git/gitHub
+  * Javascript
 
 
 ##Lessons Learned
