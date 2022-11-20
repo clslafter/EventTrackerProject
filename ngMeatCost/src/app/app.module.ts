@@ -7,11 +7,17 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { PurchasesComponent } from './components/purchases/purchases.component';
+import { NavigationComponent } from './components/navigation/navigation.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    PurchasesComponent,
+    NavigationComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,

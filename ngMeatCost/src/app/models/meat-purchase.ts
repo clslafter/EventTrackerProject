@@ -14,7 +14,7 @@ export class MeatPurchase {
   store: Store;
 
 constructor (id: number = 0, type: string = '',
-             cut: string, priceInUsd: number = 0,
+             cut: string = '', priceInUsd: number = 0,
              pricePerPound: number = 0, weightInPounds: number = 0,
              onSale: boolean = false, purchaseDate: string = '',
              createDate: string = '', store: Store = new Store() ) {

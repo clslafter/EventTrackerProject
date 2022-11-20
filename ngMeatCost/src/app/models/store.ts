@@ -6,11 +6,11 @@ export class Store {
   id: number;
   name: string;
   purchases: MeatPurchase[];
-  address: Address;
+  address?: Address;
 
   constructor (id: number = 0, name: string = '',
                 purchases: MeatPurchase[] = [],
-                address: Address = new Address()) {
+                address?: Address ) {
     this.id = id;
     this.name = name;
     this.purchases = purchases;
