@@ -33,7 +33,6 @@ From the front end, the user can
  * select a purchase from the list to view its details, including the store name and address
  * edit a purchase
  * add a purchase
- * add a store
  * delete a store
  * view the average cost of meat per pound from all the purchases
 
@@ -53,6 +52,8 @@ From the front end, the user can
   * git/gitHub
   * Javascript
   * Postman
+  * Angular
+  * Bootstrap
 
 
 ##Lessons Learned
