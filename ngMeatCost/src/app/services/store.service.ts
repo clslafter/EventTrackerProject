@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { MeatPurchase } from '../models/meat-purchase';
 import { Store } from '../models/store';
 
@@ -9,8 +10,8 @@ import { Store } from '../models/store';
 })
 export class StoreService {
 
-  baseUrl = 'http://localhost:8087/';
-  url = this.baseUrl + 'api/stores'
+  //baseUrl = 'http://localhost:8087/';
+  url = environment.baseUrl + 'api/stores'
 
   constructor(private http: HttpClient) { }
 

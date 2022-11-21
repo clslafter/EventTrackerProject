@@ -171,7 +171,9 @@ export class PurchasesComponent implements OnInit {
     this.purchaseService.destroy(id).subscribe({
       next: (data) => {
         this.loadPurchases();
-        window.location.reload();
+        this.router.navigateByUrl('purchases');
+        this.selected = null;
+
 
       },
       error: (fail) => {

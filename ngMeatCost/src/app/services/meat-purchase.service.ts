@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { MeatPurchase } from '../models/meat-purchase';
 
 @Injectable({
@@ -8,8 +9,8 @@ import { MeatPurchase } from '../models/meat-purchase';
 })
 export class MeatPurchaseService {
 
-  baseUrl = 'http://localhost:8087/';
-  url = this.baseUrl + 'api/purchases'
+  //baseUrl = 'http://localhost:8087/';
+  url = environment.baseUrl + 'api/purchases'
 
   constructor(private http: HttpClient) { }
 
