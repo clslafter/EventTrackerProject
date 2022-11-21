@@ -11,4 +11,6 @@ public interface StoreRepository extends JpaRepository<Store, Integer> {
 	List<Store> findByAddressCityLikeOrAddressStateLike(String keyword1, String keyword2);
 
 	List<Store> findByAddressStreetLike(String keyword);
+	
+	Store queryById(int id);
 }

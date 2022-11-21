@@ -151,6 +151,7 @@ function displayPurchases(purchases) {
 
 
 
+
 			tr.appendChild(td);
 			td = document.createElement('td');
 			td.textContent = purchase.weightInPounds;

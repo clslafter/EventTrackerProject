@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { windowWhen } from 'rxjs';
+//import { windowWhen } from 'rxjs';
 import { Address } from 'src/app/models/address';
 import { MeatPurchase } from 'src/app/models/meat-purchase';
 import { Store } from 'src/app/models/store';
@@ -85,8 +85,9 @@ export class PurchasesComponent implements OnInit {
         this.newPurchase = new MeatPurchase();
         this.editPurchase = null;
         this.showAddForm = false;
-        window.location.reload();
-        //this.selected = purchase;
+        //window.location.reload();
+        console.log(data);
+        this.selected = data;
 
       },
       error: (fail) => {
@@ -144,15 +145,16 @@ export class PurchasesComponent implements OnInit {
 
     this.purchaseService.update(purchase).subscribe({
       next: (data) => {
-        if (goToDetail){
+       // if (goToDetail){
         this.selected = data;
-        } else {
-          this.selected = null;
-        }
+        // } else {
+        //   this.selected = null;
+        // }
         this.loadPurchases();
         this.loadStores();
         this.editPurchase = null;
-        window.location.reload();
+        console.log(data);
+       // window.location.reload();
 
       },
       error: (fail) => {

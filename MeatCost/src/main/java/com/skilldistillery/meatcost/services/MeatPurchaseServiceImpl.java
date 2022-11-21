@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.skilldistillery.meatcost.entities.MeatPurchase;
+import com.skilldistillery.meatcost.entities.Store;
 import com.skilldistillery.meatcost.repositories.MeatPurchaseRepository;
 import com.skilldistillery.meatcost.repositories.StoreRepository;
 
@@ -39,6 +40,8 @@ public class MeatPurchaseServiceImpl implements MeatPurchaseService {
 	public MeatPurchase createPurchase(MeatPurchase purchase) {
 		System.out.println(purchase);
 		System.out.println(purchase.getStore());
+		Store s = storeRepo.queryById(purchase.getStore().getId());
+		purchase.setStore(s);
 		return purchaseRepo.saveAndFlush(purchase);
 	}
 
@@ -51,7 +54,7 @@ public class MeatPurchaseServiceImpl implements MeatPurchaseService {
 		managed.setPriceInUsd(purchase.getPriceInUsd());
 		managed.setPricePerPound(purchase.getPricePerPound());
 		managed.setPurchaseDate(purchase.getPurchaseDate());
-		managed.setStore(purchase.getStore());
+		managed.setStore(storeRepo.queryById(purchase.getStore().getId()));
 		managed.setType(purchase.getType());
 		managed.setWeightInPounds(purchase.getWeightInPounds());
 		
